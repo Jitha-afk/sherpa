@@ -77,10 +77,10 @@ The solution is **structured logging**: emitting events as key-value pairs (dime
 
     This is the core problem: **security events are happening, but they're invisible to your monitoring tools.**
 
-    :material-close: No `AppTraces` table to query  
-    :material-close: No correlation IDs linking to APIM logs  
-    :material-close: No way to build dashboards or alerts  
-    :material-close: Logs exist only in function console output (if you know where to look)
+    - +mdi:close+ No `AppTraces` table to query
+    - +mdi:close+ No correlation IDs linking to APIM logs
+    - +mdi:close+ No way to build dashboards or alerts
+    - +mdi:close+ Logs exist only in function console output (if you know where to look)
 
 ## 2.2 Deploy Structured Logging
 
@@ -181,7 +181,3 @@ The solution is **structured logging**: emitting events as key-value pairs (dime
 You now have structured, queryable security events flowing to Application Insights. Time to make them *actionable* with dashboards and alerts.
 
 [Next: Dashboards & Alerts →](section3-dashboards-alerts.md){ .md-button .md-button--primary }
-
----
-
-← [Gateway Logging](section1-apim-logging.md) | [Dashboards & Alerts →](section3-dashboards-alerts.md)

@@ -27,7 +27,7 @@ Camp 3 adds **Layer 2 security**: Azure Functions that perform advanced input va
 This camp follows the same **"vulnerable → exploit → fix → validate"** methodology, but focuses on the data flowing through your MCP servers rather than access control.
 
 !!! info "Camp Details"
-    **Tech Stack:** Python, MCP, Azure Functions, Azure AI Services (Language), Azure API Management  
+    **Tech Stack:** Python, MCP, Azure Functions, Azure AI Services (Language), Azure API Management
     **Primary Risks:** [MCP05](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp05-command-injection/) (Command Injection & Execution), [MCP06](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp06-prompt-injection/) (Intent Flow Subversion), [MCP03](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp03-tool-poisoning/) (Tool Poisoning), [MCP10](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp10-context-oversharing/) (Context Injection & Over-Sharing)
 
 ## What You'll Learn
@@ -53,11 +53,11 @@ Before starting Camp 3, ensure you have the required tools installed.
 
 **Quick checklist for Camp 3:**
 
-:material-check: Azure subscription with Contributor access  
-:material-check: Azure CLI (authenticated)  
-:material-check: Azure Developer CLI - azd (authenticated)  
-:material-check: Docker (installed and running)  
-:material-check: Completed Camp 2 (recommended for OAuth context)  
+- +mdi:check+ Azure subscription with Contributor access
+- +mdi:check+ Azure CLI (authenticated)
+- +mdi:check+ Azure Developer CLI - azd (authenticated)
+- +mdi:check+ Docker (installed and running)
+- +mdi:check+ Completed Camp 2 (recommended for OAuth context)
 
 **Verify your setup:**
 
@@ -161,10 +161,6 @@ Before climbing through the waypoints, deploy all Azure infrastructure and appli
         # Display your deployment info
         azd env get-values | Select-String "APIM_GATEWAY_URL|FUNCTION_APP_URL|MCP_APP_CLIENT_ID"
         ```
-
----
-
-[Start: Understand Vulnerabilities →](section1-vulnerabilities.md){ .md-button .md-button--primary }
 
 ---
 

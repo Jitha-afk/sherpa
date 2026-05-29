@@ -1,6 +1,7 @@
 ---
-hide:
-  - toc
+title: Contributing
+description: How to contribute to the MCP Security Summit Workshop.
+hide_page_header: true
 ---
 
 <div class="camp-banner">
@@ -18,7 +19,7 @@ hide:
 
 ## Quick Links
 
-:material-book-open-variant: [Workshop site](https://azure-samples.github.io/sherpa/) · :material-shield-lock: [OWASP MCP Azure Security Guide](https://microsoft.github.io/mcp-azure-security-guide/) · :material-github: [Open an issue](https://github.com/Azure-Samples/sherpa/issues)
++mdi:book-open-variant+ [Workshop site](https://azure-samples.github.io/sherpa/) · +mdi:shield-lock+ [OWASP MCP Azure Security Guide](https://microsoft.github.io/mcp-azure-security-guide/) · +mdi:github+ [Open an issue](https://github.com/Azure-Samples/sherpa/issues)
 
 ---
 

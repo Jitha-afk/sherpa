@@ -1,7 +1,7 @@
 ---
-hide:
-    - navigation
-    - toc
+title: Prerequisites
+description: Tools, accounts, and setup you'll need before starting any camp in the MCP Security Summit Workshop.
+hide_page_header: true
 ---
 
 <div class="camp-banner">
@@ -166,13 +166,14 @@ Verify: `func --version` — [Install guide](https://learn.microsoft.com/azure/a
 
 | Tool | Base Camp | Camp 1 | Camp 2 | Camp 3 | Camp 4 |
 |------|:---------:|:------:|:------:|:------:|:------:|
-| Python 3.10+ & uv | :material-check: | :material-check: | :material-check: | :material-check: | :material-check: |
-| Azure subscription | | :material-check: | :material-check: | :material-check: | :material-check: |
-| Azure CLI & azd | | :material-check: | :material-check: | :material-check: | :material-check: |
-| Docker | | :material-check: | :material-check: | :material-check: | :material-check: |
-| Functions Core Tools | | | | :material-check-outline: | :material-check-outline: |
+| Python 3.10+ & uv | +mdi:check+ | +mdi:check+ | +mdi:check+ | +mdi:check+ | +mdi:check+ |
+| Azure subscription | | +mdi:check+ | +mdi:check+ | +mdi:check+ | +mdi:check+ |
+| Azure CLI & azd | | +mdi:check+ | +mdi:check+ | +mdi:check+ | +mdi:check+ |
+| Docker | | +mdi:check+ | +mdi:check+ | +mdi:check+ | +mdi:check+ |
+| Functions Core Tools | | | | +mdi:check-outline+ | +mdi:check-outline+ |
 
-:material-check: Required | :material-check-outline: Optional (local debugging only)
+- +mdi:check+ Required
+- +mdi:check-outline+ Optional (local debugging only)
 
 ---
 

@@ -134,7 +134,7 @@ In this section, you'll use [Azure AI Content Safety](https://learn.microsoft.co
     This deploys:
 
     **1. Content Safety Policy Fragment**
-    
+
     A reusable policy fragment that extracts MCP tool arguments and checks them against Content Safety:
 
     ```xml
@@ -223,7 +223,7 @@ In this section, you'll use [Azure AI Content Safety](https://learn.microsoft.co
     ------------------------------------------------------------
     PASSED: Normal request succeeded (HTTP 200)
 
-    
+
     TEST 2: Prompt injection attempt (should be blocked)
     ------------------------------------------------------------
     PASSED: Prompt injection correctly blocked (HTTP 400)
@@ -286,10 +286,4 @@ In this section, you'll use [Azure AI Content Safety](https://learn.microsoft.co
 - MCP server only receives clean requests
 - Attack attempts logged for security review
 
-**OWASP MCP06 mitigation complete!** :material-check:
-
----
-
-[Continue: Network Security →](section3-network-security.md){ .md-button .md-button--primary }
-
-← [API Governance](api-governance.md) | [Network Security →](section3-network-security.md)
+**OWASP MCP06 mitigation complete!** +mdi:check+

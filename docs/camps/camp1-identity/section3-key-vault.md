@@ -27,10 +27,10 @@ With Managed Identity in place, your secure server has a passwordless way to tal
 
     **Benefits:**
 
-    - **Centralized secret management** - One place for all secrets  
-    - **Access auditing** - Who accessed what, when  
-    - **Secret rotation** - Update secrets without redeploying  
-    - **RBAC-based access** - Fine-grained permissions  
+    - **Centralized secret management** - One place for all secrets
+    - **Access auditing** - Who accessed what, when
+    - **Secret rotation** - Update secrets without redeploying
+    - **RBAC-based access** - Fine-grained permissions
     - **Versioning** - Keep history of secret changes
 
 ## Waypoint 4: Migrate Secrets to Key Vault
@@ -191,13 +191,7 @@ api_key = get_keyvault_secret("demo-api-key")
 
 ### Best Practices Applied
 
-:material-check: **Separation of Concerns:** Secrets managed separately from application code  
-:material-check: **Least Privilege:** Managed Identity has only "Key Vault Secrets User" role  
-:material-check: **Defense in Depth:** RBAC + audit logs + encryption at rest  
-:material-check: **Compliance Ready:** Audit logs for SOC 2, ISO 27001, etc.
-
----
-
-[Continue: OAuth & JWT →](section4-oauth-jwt.md){ .md-button .md-button--primary }
-
-← [Managed Identity](section2-managed-identity.md) | [OAuth & JWT →](section4-oauth-jwt.md)
+- +mdi:check+ **Separation of Concerns:** Secrets managed separately from application code
+- +mdi:check+ **Least Privilege:** Managed Identity has only "Key Vault Secrets User" role
+- +mdi:check+ **Defense in Depth:** RBAC + audit logs + encryption at rest
+- +mdi:check+ **Compliance Ready:** Audit logs for SOC 2, ISO 27001, etc.

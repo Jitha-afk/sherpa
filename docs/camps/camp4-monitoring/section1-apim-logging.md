@@ -53,10 +53,10 @@ Every MCP reques, legitimate or malicious, passes through APIM. By default, APIM
 
     | Component | Status |
     |-----------|--------|
-    | :material-check: APIM routes requests | Working |
-    | :material-check: Security function blocks attacks | Working |
-    | :material-check: Diagnostic settings configured | Pre-deployed via Bicep |
-    | :material-check: Logs flowing to Log Analytics | Verified |
+    | +mdi:check+ APIM routes requests | Working |
+    | +mdi:check+ Security function blocks attacks | Working |
+    | +mdi:check+ Diagnostic settings configured | Pre-deployed via Bicep |
+    | +mdi:check+ Logs flowing to Log Analytics | Verified |
 
     !!! tip "Log Ingestion Delay"
         Azure Monitor has a 2-5 minute ingestion delay. The first logs from a new deployment may take 5-10 minutes to appear.
@@ -136,7 +136,3 @@ The `CorrelationId` field appears in both tables — you'll use it in Section 4 
 Logs from API Management are now flowing. But the security function's internal operations (what attacks were blocked, what PII was found) are still invisible. Let's fix that.
 
 [Next: Function Observability →](section2-function-observability.md){ .md-button .md-button--primary }
-
----
-
-← [Overview & Deploy](index.md) | [Function Observability →](section2-function-observability.md)

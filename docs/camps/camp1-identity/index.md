@@ -21,7 +21,7 @@ Welcome to **Camp 1**, where you'll establish production-grade identity controls
 This camp demonstrates why the same vulnerabilities from Base Camp are even more dangerous in the cloud, and how Azure's identity services provide passwordless, production-grade solutions. You'll follow the same **"vulnerable → exploit → fix → validate"** methodology, but this time in a real cloud environment with real-world security controls.
 
 !!! info "Camp Details"
-    **Tech Stack:** Python, FastMCP, Azure Container Apps, Entra ID, Key Vault, and Managed Identity  
+    **Tech Stack:** Python, FastMCP, Azure Container Apps, Entra ID, Key Vault, and Managed Identity
     **Primary Risks:** [MCP01](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp01-token-mismanagement/) (Token Mismanagement & Secret Exposure), [MCP07](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp07-authz/) (Insufficient Authentication & Authorization), [MCP02](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp02-privilege-escalation/) (Privilege Escalation via Scope Creep)
 
 ## What You'll Learn
@@ -48,13 +48,13 @@ Before starting Camp 1, ensure you have the required tools installed.
 
 **Quick checklist for Camp 1:**
 
-:material-check: Azure subscription with Contributor access  
-:material-check: Azure CLI (authenticated)  
-:material-check: Azure Developer CLI - azd (authenticated)  
-:material-check: Python 3.10+  
-:material-check: uv (Python package installer)  
-:material-check: Docker (installed and running)  
-:material-check: Completed Base Camp (recommended)  
+- +mdi:check+ Azure subscription with Contributor access
+- +mdi:check+ Azure CLI (authenticated)
+- +mdi:check+ Azure Developer CLI - azd (authenticated)
+- +mdi:check+ Python 3.10+
+- +mdi:check+ uv (Python package installer)
+- +mdi:check+ Docker (installed and running)
+- +mdi:check+ Completed Base Camp (recommended)
 
 If you haven't installed these tools yet, visit the [Prerequisites page](../../prerequisites.md) for detailed installation instructions and verification steps.
 
@@ -161,10 +161,10 @@ This single command provisions all Azure resources and deploys your code:
 
 The vulnerable server is now running in Azure with:
 
-:material-close: **Token stored in plain-text environment variables**  
-:material-close: **Token never expires**  
-:material-close: **No audience validation**  
-:material-close: **Secrets visible in Azure Portal**
+- +mdi:close+ **Token stored in plain-text environment variables**
+- +mdi:close+ **Token never expires**
+- +mdi:close+ **No audience validation**
+- +mdi:close+ **Secrets visible in Azure Portal**
 
 This demonstrates **OWASP MCP01 (Token Mismanagement & Secret Exposure)** and **MCP07 (Insufficient Authentication & Authorization)** in a cloud environment!
 
@@ -183,9 +183,3 @@ This demonstrates **OWASP MCP01 (Token Mismanagement & Secret Exposure)** and **
     ```
 
 Keep these values handy - you'll need them for the exploits!
-
----
-
-[Continue: Cloud Exploits →](section1-cloud-exploits.md){ .md-button .md-button--primary }
-
-← [Base Camp](../base-camp.md) | [Cloud Exploits →](section1-cloud-exploits.md)

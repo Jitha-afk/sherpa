@@ -70,9 +70,9 @@ The script sends three technical injection attacks against the MCP servers. Ever
 
 | Attack | Payload | Result |
 |--------|---------|--------|
-| Shell injection | `summit; cat /etc/passwd` | :material-alert: **200 OK** -- passes through |
-| Path traversal | `../../etc/passwd` | :material-alert: **200 OK** -- not blocked |
-| SQL injection | `' OR '1'='1` | :material-alert: **200 OK** -- not detected |
+| Shell injection | `summit; cat /etc/passwd` | +mdi:alert+ **200 OK** -- passes through |
+| Path traversal | `../../etc/passwd` | +mdi:alert+ **200 OK** -- not blocked |
+| SQL injection | `' OR '1'='1` | +mdi:alert+ **200 OK** -- not detected |
 
 All attacks succeed on both servers. Content Safety isn't stopping them.
 
@@ -130,9 +130,3 @@ This is **MCP10: Context Injection & Over-Sharing**. Without output sanitization
     - **CCPA** -- California privacy law
     - **HIPAA** -- Healthcare data protection
     - **SOC 2** -- Trust service criteria
-
----
-
-[Continue: Enable Layer 2 Security →](section2-layer2-security.md){ .md-button .md-button--primary }
-
-← [Overview](index.md) | [Layer 2 Security →](section2-layer2-security.md)

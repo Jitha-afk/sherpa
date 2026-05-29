@@ -159,15 +159,15 @@ Security posture: SECURE
 
 Review what we've accomplished:
 
-:material-check: **No hardcoded secrets in code**  
-:material-check: **No secrets in environment variables** (moved to Key Vault)  
-:material-check: **Managed Identity for Azure resource access** (no passwords)  
-:material-check: **OAuth 2.1 authentication with Entra ID**  
-:material-check: **JWT validation** (signature, issuer, audience, expiration)  
-:material-check: **Least-privilege RBAC** (Key Vault Secrets User only)  
-:material-check: **Audit logs enabled** (Azure Monitor tracks all access)  
-:material-check: **Token expiration** (tokens expire after ~1 hour)  
-:material-check: **Audience validation** (prevents confused deputy attacks)
+- +mdi:check+ **No hardcoded secrets in code**
+- +mdi:check+ **No secrets in environment variables** (moved to Key Vault)
+- +mdi:check+ **Managed Identity for Azure resource access** (no passwords)
+- +mdi:check+ **OAuth 2.1 authentication with Entra ID**
+- +mdi:check+ **JWT validation** (signature, issuer, audience, expiration)
+- +mdi:check+ **Least-privilege RBAC** (Key Vault Secrets User only)
+- +mdi:check+ **Audit logs enabled** (Azure Monitor tracks all access)
+- +mdi:check+ **Token expiration** (tokens expire after ~1 hour)
+- +mdi:check+ **Audience validation** (prevents confused deputy attacks)
 
 ---
 
@@ -188,7 +188,7 @@ Review what we've accomplished:
 | **Secrets Management** | Environment variables | Azure Key Vault |
 | **RBAC** | Not applicable | Least-privilege (Key Vault Secrets User) |
 | **Audit Logs** | None | Azure Monitor tracks all access |
-| **Production Ready** | :material-close: Security vulnerabilities | :material-check: Enterprise-grade security |
+| **Production Ready** | +mdi:close+ Security vulnerabilities | +mdi:check+ Enterprise-grade security |
 
 ---
 
@@ -233,9 +233,3 @@ azd down --force --purge
     # Delete app
     az ad app delete --id $APP_ID
     ```
-
----
-
-[Continue: Camp 2 Gateway Security →](../camp2-gateway/index.md){ .md-button .md-button--primary }
-
-← [OAuth & JWT](section4-oauth-jwt.md) | [Camp 2: Gateway Security →](../camp2-gateway/index.md)

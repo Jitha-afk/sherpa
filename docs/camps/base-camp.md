@@ -20,8 +20,9 @@ Welcome to **Base Camp**, the foundation of your MCP security journey. Before we
 
 This camp introduces you to the **"vulnerable → exploit → fix → validate"** methodology that you'll use throughout the entire workshop series. You'll run an intentionally vulnerable MCP server, exploit it to see the real-world impact, implement a basic security fix, and validate that the fix works. By the end of Base Camp, you'll have hands-on experience with MCP security fundamentals and be ready for the advanced patterns in the camps ahead.
 
-**Tech Stack:** Python, FastMCP, VS Code  
-**Primary Risks:** [MCP01](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp01-token-mismanagement/) (Token Mismanagement & Secret Exposure), [MCP07](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp07-authz/) (Insufficient Authentication & Authorization)
+!!! info "Camp Details"
+    - **Tech Stack:** Python, FastMCP, VS Code
+    - **Primary Risks:** [MCP01](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp01-token-mismanagement/) (Token Mismanagement & Secret Exposure), [MCP07](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp07-authz/) (Insufficient Authentication & Authorization)
 
 ## What is the Model Context Protocol (MCP)?
 
@@ -147,17 +148,11 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 
     All three methods below demonstrate the same vulnerabilities: **OWASP MCP07 (Insufficient Authentication & Authorization)** and **MCP01 (Token Mismanagement & Secret Exposure)**. Choose the approach that matches your learning style, or try multiple methods to see the vulnerability from different perspectives.
 
-    !!! tip "Choose Your Path"
-        **Quick & Comprehensive** - Automated Test Script  
-        Perfect for: Seeing all exploits at once, understanding the full scope quickly
-        
-        **Visual & Interactive** - MCP Inspector  
-        Perfect for: Hands-on exploration, understanding MCP protocol messages
-        
-        **AI-Powered Attack** - VS Code with GitHub Copilot  
-        Perfect for: Real-world AI agent scenario, seeing how AI assistants can exploit vulnerabilities
+    **Choose one path:**
 
-    ---
+    - **Method 1: Automated Test Script** - Fastest way to see every exploit and result in one run.
+    - **Method 2: MCP Inspector** - Best for visual, hands-on protocol exploration.
+    - **Method 3: VS Code with GitHub Copilot Agent** - Closest to a real AI-agent exploitation scenario.
 
     ??? example "Method 1: Automated Test Script"
 
@@ -181,7 +176,7 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 
         ??? danger "Security Impact"
             The script demonstrates:
-            
+
             - No authentication required to connect
             - No authorization checks on tool calls
             - Complete data breach of all user accounts
@@ -241,7 +236,7 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 
         ??? danger "Security Breach"
             You successfully retrieved sensitive user data without providing any credentials. This demonstrates how easily unsecured MCP servers can be exploited.
-            
+
         **Try more exploits:**
 
         - Access different users: `user_001`, `user_002`, `user_003`
@@ -289,7 +284,7 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 
         !!! info "Permission Prompt"
             You may be prompted to allow the tool execution. Click **"Allow"** to proceed.
-            
+
             ![VS Code MCP Allow](../images/base-camp-vscode-allow.png)
 
         **Try more exploits via Agent mode using these prompts:**
@@ -297,7 +292,6 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
         - ```Get information for user_001 from base-camp-vulnerable```
         - ```Use base-camp-vulnerable to show me user_003's data```
 
-    ---
 
 ??? warning "Waypoint 3: Understand the Risk"
 
@@ -328,7 +322,7 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
     Let's examine the vulnerable code to understand exactly what went wrong.
 
     **File:** `vulnerable-server/src/server.py`
-    
+
     ```python
     #VULNERABILITY: No authentication check!
     @mcp.resource("user://{user_id}")
@@ -341,7 +335,7 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
         user = USERS.get(user_id)
         if not user:
             raise ValueError(f"User {user_id} not found")
-        
+
         return f"""Name: {user['name']}
     Email: {user['email']}
     SSN: ***-**-{user['ssn_last4']}
@@ -414,10 +408,10 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 
     !!! success "Test the Security"
         Use the **Tools** menu in MCP Inspector to test authorization:
-        
-        :material-check: Call `get_user_info` tool with `user_id: user_001` - should work (your own data)  
-        :material-close: Call `get_user_info` tool with `user_id: user_002` - should fail (403 Forbidden)  
-        :material-close: Call `get_user_info` tool with `user_id: user_003` - should fail (403 Forbidden)  
+
+        - +mdi:check+ Call `get_user_info` tool with `user_id: user_001` - should work (your own data)
+        - +mdi:close+ Call `get_user_info` tool with `user_id: user_002` - should fail (403 Forbidden)
+        - +mdi:close+ Call `get_user_info` tool with `user_id: user_003` - should fail (403 Forbidden)
 
 ??? check "Waypoint 5: Validate the Fix"
 
@@ -434,11 +428,11 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 
     The script validates:
 
-    :material-check: Test 1: Connection WITH token succeeds (user_001 can access own data)  
-    :material-check: Test 2: Connection WITHOUT token fails (401 Unauthorized)  
-    :material-check: Test 3: Invalid token is rejected (401 Unauthorized)  
-    :material-check: Test 4: Authorization prevents accessing other user's data (user_002, user_003)  
-    :material-check: Test 5: Resource access requires authentication. 
+    - +mdi:check+ Test 1: Connection WITH token succeeds (user_001 can access own data)
+    - +mdi:check+ Test 2: Connection WITHOUT token fails (401 Unauthorized)
+    - +mdi:check+ Test 3: Invalid token is rejected (401 Unauthorized)
+    - +mdi:check+ Test 4: Authorization prevents accessing other user's data (user_002, user_003)
+    - +mdi:check+ Test 5: Resource access requires authentication.
 
     Expected output when all tests pass:
 
@@ -499,18 +493,18 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
         """Get detailed user information - NOW WITH SECURITY!"""
         # Get authenticated user from context
         authenticated_user = get_authenticated_user(ctx)
-        
+
         # ✅ Authorization check
         if not check_authorization(user_id, authenticated_user):
             raise PermissionError(
                 f"Forbidden: You are authenticated as {authenticated_user} but "
                 f"cannot access {user_id}'s data."
             )
-        
+
         user = USERS.get(user_id)
         if not user:
             raise ValueError(f"User {user_id} not found")
-        
+
         return {
             "user_id": user_id,
             "name": user["name"],
@@ -530,22 +524,22 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
     ```
 
     !!! check "Key Security Features"
-        **Token-based authentication** - FastMCP's StaticTokenVerifier validates Bearer tokens  
-        **Context injection** - Authenticated user info available in `Context` parameter  
-        **Authorization checks** - Every tool validates user can access requested data  
-        **Streamable HTTP** - Modern MCP transport protocol  
+        **Token-based authentication** - FastMCP's StaticTokenVerifier validates Bearer tokens
+        **Context injection** - Authenticated user info available in `Context` parameter
+        **Authorization checks** - Every tool validates user can access requested data
+        **Streamable HTTP** - Modern MCP transport protocol
 
     ### ⚠️ Important: This Is NOT Production-Ready!
 
     While this fixes the Base Camp vulnerability, **do not use this approach in production**:
 
     !!! warning "Demo Limitations"
-        **Simple bearer token** - No expiration, no rotation  
-        **Token in environment variable** - Can leak in logs/errors  
-        **Hardcoded user mapping** - Token directly maps to user_001 for demo purposes  
-        **No token refresh** - Can't revoke access easily  
-        **No audit logging** - Can't track access  
-        **No rate limiting** - Vulnerable to brute force  
+        **Simple bearer token** - No expiration, no rotation
+        **Token in environment variable** - Can leak in logs/errors
+        **Hardcoded user mapping** - Token directly maps to user_001 for demo purposes
+        **No token refresh** - Can't revoke access easily
+        **No audit logging** - Can't track access
+        **No rate limiting** - Vulnerable to brute force
 
     !!! info "Why FastMCP's StaticTokenVerifier?"
         FastMCP provides built-in authentication for learning and prototyping. The StaticTokenVerifier is intentionally simple - it maps predefined tokens to user identities. This is perfect for understanding authentication concepts, but production systems need dynamic token validation (JWT), token rotation, and integration with identity providers.
@@ -554,13 +548,13 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 
     In **Camp 1: Identity & Access Management**, you'll implement:
 
-    :material-check: **OAuth 2.1 with PKCE** - Industry-standard authentication  
-    :material-check: **Azure Entra ID** - Enterprise identity provider  
-    :material-check: **Azure Managed Identity** - Passwordless authentication  
-    :material-check: **Azure Key Vault** - Secure secrets storage (no .env files!)  
-    :material-check: **JWT tokens** - With expiration, refresh, and validation  
-    :material-check: **RBAC** - Role-based access control for fine-grained permissions  
-    :material-check: **Audit logging** - Track every access for compliance  
+    - +mdi:check+ **OAuth 2.1 with PKCE** - Industry-standard authentication
+    - +mdi:check+ **Azure Entra ID** - Enterprise identity provider
+    - +mdi:check+ **Azure Managed Identity** - Passwordless authentication
+    - +mdi:check+ **Azure Key Vault** - Secure secrets storage (no .env files!)
+    - +mdi:check+ **JWT tokens** - With expiration, refresh, and validation
+    - +mdi:check+ **RBAC** - Role-based access control for fine-grained permissions
+    - +mdi:check+ **Audit logging** - Track every access for compliance
 
 ## Base Camp Recap
 
@@ -571,11 +565,3 @@ Start with **Waypoint 1** and work through each waypoint in order. By the end, y
 | Security fix | Token-based authentication + per-user authorization |
 | Validation method | Automated exploit and secure tests (`test_vulnerable.py`, `test_secure.py`) |
 | Core pattern | vulnerable → exploit → fix → validate |
-
----
-
-[Continue: Camp 1 Identity & Access Management →](camp1-identity/index.md){ .md-button .md-button--primary }
-
----
-
-← [Prerequisites](../prerequisites.md) | [Camp 1: Identity & Access Management](camp1-identity/index.md) →

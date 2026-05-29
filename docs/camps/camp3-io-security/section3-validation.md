@@ -310,7 +310,3 @@ azd down --force --purge
     You've implemented comprehensive I/O security for MCP servers!
 
 Your MCP servers now have layered input validation and output sanitization. Next, you'll add monitoring and incident response so you can detect, alert on, and respond to security events in real time.
-
-[Continue: Camp 4 →](../camp4-monitoring/index.md){ .md-button .md-button--primary }
-
-← [Layer 2 Security](section2-layer2-security.md) | [Camp 4: Monitoring →](../camp4-monitoring/index.md)

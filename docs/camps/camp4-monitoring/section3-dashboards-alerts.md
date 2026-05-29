@@ -111,7 +111,3 @@ Dashboards are great when you're looking at them. Alerts watch your logs continu
 Dashboards and alerts are live. Time to put the whole system to the test.
 
 [Next: Incident Response →](section4-incident-response.md){ .md-button .md-button--primary }
-
----
-
-← [Function Observability](section2-function-observability.md) | [Incident Response →](section4-incident-response.md)

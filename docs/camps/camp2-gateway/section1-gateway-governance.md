@@ -87,22 +87,22 @@ Without authentication, your MCP server is completely open to the internet. For 
 
     ??? info "What does this script do?"
         The deployment script performs these steps:
-        
+
         1. **Builds and deploys Sherpa MCP Server** - Runs `azd deploy sherpa-mcp-server` to build the Docker image and deploy to Container Apps
         2. **Creates APIM backend** - Configures a backend in APIM pointing to the Container App URL
         3. **Creates MCP passthrough in APIM** - Sets up a transparent gateway that forwards MCP protocol messages to Sherpa without modification
-        
+
         **What is MCP passthrough?** APIM acts as an intelligent proxy that understands the MCP protocol. It can inspect MCP messages, apply policies (auth, rate limiting), and forward requests to the upstream server. The upstream Sherpa MCP Server receives native MCP protocol messages and doesn't need any awareness that APIM exists.
-        
+
         This gives you a working MCP server behind APIM, but with **no authentication**.
 
     ??? info "What is the Sherpa MCP Server?"
         **Sherpa** is a FastMCP server that provides mountain expedition tools:
-        
+
         - `get_weather` - Current weather conditions at different elevations
         - `list_trails` - Available climbing routes and difficulty ratings
         - `check_gear` - Verify required equipment for specific conditions
-        
+
         **Why read-only?** Sherpa only exposes read operations (queries) with no write capabilities (no data modification, file system access, or system commands). This follows a key [enterprise pattern](https://microsoft.github.io/mcp-azure-security-guide/adoption/enterprise-patterns/#lessons-from-early-adopters): **separate read from write operations**. Read-only MCP servers are safer for demos and initial deployments because they limit the blast radius of potential exploits. Once you've validated security controls at the gateway (authentication, rate limiting, content safety), you can confidently add write operations or deploy separate write-enabled MCP servers with stricter controls.
 
     **Expected output:**
@@ -111,11 +111,11 @@ Without authentication, your MCP server is completely open to the internet. For 
     ==========================================
     Sherpa MCP Server Deployed
     ==========================================
-    
+
     Endpoint: https://apim-xxxxx.azure-api.net/sherpa/mcp
-    
+
     Current security: NONE (completely open)
-    
+
     Next: Test the vulnerability from VS Code
       1. Add the endpoint to .vscode/mcp.json
       2. Connect without any authentication
@@ -150,7 +150,7 @@ Without authentication, your MCP server is completely open to the internet. For 
           "url": "https://your-container-app.azurecontainerapps.io/mcp"
         },
         "sherpa-via-apim": {
-          "type": "http", 
+          "type": "http",
           "url": "https://your-apim-instance.azure-api.net/sherpa/mcp"
         }
       }
@@ -167,8 +167,8 @@ Without authentication, your MCP server is completely open to the internet. For 
         - Click the **Start** button above `sherpa-direct`
         - This connects directly to the Container App, bypassing APIM
         - Connection succeeds with **no authentication prompt**
-        
-    - **Test 2: APIM Gateway access**  
+
+    - **Test 2: APIM Gateway access**
         - Click the **Start** button above `sherpa-via-apim`
         - This connects through the APIM gateway
         - Connection also succeeds with **no authentication prompt**
@@ -183,20 +183,20 @@ Without authentication, your MCP server is completely open to the internet. For 
 
     ??? danger "Security Impact: Complete Exposure"
         **The vulnerability:** VS Code connected with zero authentication!
-        
-        :material-close: No login required  
-        :material-close: No credentials needed  
-        :material-close: Anyone with the URL can connect  
-        :material-close: No audit trail of who accessed what
-        
+
+        - +mdi:close+ No login required
+        - +mdi:close+ No credentials needed
+        - +mdi:close+ Anyone with the URL can connect
+        - +mdi:close+ No audit trail of who accessed what
+
         **Real-world scenario:** Your MCP server exposes tools for querying customer data:
-        
+
         - Anyone who discovers the URL can call `get_customer_data()`
         - Bots and scrapers can access your tools
         - Competitors access your business intelligence
         - No way to stop them without taking the service offline
         - No way to implement rate limiting per user
-        
+
         This is **MCP07: Insufficient Authentication & Authorization** - the system can't identify users or enforce authorization.
 
 ??? success "Step 3: Fix - Add OAuth with PRM Discovery"
@@ -215,9 +215,9 @@ Without authentication, your MCP server is completely open to the internet. For 
 
     This script deploys:
 
-    **1. RFC 9728 PRM Metadata Endpoints**  
+    **1. RFC 9728 PRM Metadata Endpoints**
     Creates two discovery endpoints for OAuth autodiscovery:
-    
+
     - **RFC 9728 path-based:** `https://apim-xxxxx.azure-api.net/.well-known/oauth-protected-resource/sherpa/mcp`
     - **Suffix pattern:** `https://apim-xxxxx.azure-api.net/sherpa/mcp/.well-known/oauth-protected-resource`
 
@@ -261,9 +261,9 @@ Without authentication, your MCP server is completely open to the internet. For 
         </inbound>
         ```
 
-    **2. OAuth Validation Policy**  
+    **2. OAuth Validation Policy**
     Applies token validation to the Sherpa MCP API that:
-    
+
     - Validates Entra ID tokens against your tenant
     - Checks the token audience matches your MCP app
     - Returns a proper 401 with PRM discovery link on failure
@@ -295,7 +295,7 @@ Without authentication, your MCP server is completely open to the internet. For 
     HTTP/1.1 401 Unauthorized
     WWW-Authenticate: Bearer error="invalid_token", resource_metadata="https://apim-xxxxx.azure-api.net/sherpa/mcp/.well-known/oauth-protected-resource"
     ```
-    
+
     This tells OAuth clients where to discover authentication requirements.
 
     !!! note "APIM Native MCP Behavior"
@@ -365,10 +365,10 @@ Without authentication, your MCP server is completely open to the internet. For 
       2. Find the Entra ID authorization server
       3. Obtain tokens and call the MCP API
     ```
-    
+
     !!! tip "Test with VS Code"
         To verify OAuth works end-to-end with a real token:
-        
+
         1. Restart the `sherpa-via-apim` connection from Step 2
         2. VS Code will discover OAuth via PRM and prompt you to sign in
         3. After authentication, you can invoke MCP tools with a valid token
@@ -386,17 +386,17 @@ Without authentication, your MCP server is completely open to the internet. For 
 
 **After (OAuth with PRM):**
 
-:material-check: Every request has user identity from JWT  
-:material-check: Audit logs show exactly who did what  
-:material-check: Can enforce user-specific permissions  
-:material-check: Tokens expire automatically (short-lived)  
-:material-check: VS Code authenticates automatically via PRM discovery  
+- +mdi:check+ Every request has user identity from JWT
+- +mdi:check+ Audit logs show exactly who did what
+- +mdi:check+ Can enforce user-specific permissions
+- +mdi:check+ Tokens expire automatically (short-lived)
+- +mdi:check+ VS Code authenticates automatically via PRM discovery
 
-**OWASP MCP07** mitigated at the gateway!   
+**OWASP MCP07** mitigated at the gateway!
 
 !!! warning "Backend Still Exposed"
     OAuth is now enforced at the APIM gateway, but the Container App running Sherpa is still publicly accessible. Anyone who discovers the direct Container App URL can bypass APIM entirely (as shown in Step 2's `sherpa-direct` test).
-    
+
     **This is intentional for now.** Network isolation is a defense-in-depth measure covered in the [Network Security](section3-network-security.md) section, where you'll learn about patterns to restrict backend access.
 
 ## Waypoint 1.2: REST API → MCP Server with OAuth
@@ -454,15 +454,15 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
 
     ??? info "How does REST-to-MCP export work?"
         When you export a REST API as an MCP server, APIM:
-        
+
         1. **Reads the OpenAPI spec** - Parses operation definitions, parameters, and schemas
         2. **Creates MCP tools** - Each operation becomes a tool with the same name
         3. **Maps parameters** - Query params, path params, and body become tool arguments
         4. **Generates descriptions** - Uses OpenAPI descriptions for tool documentation
         5. **Handles responses** - Transforms REST responses into MCP tool results
-        
+
         **Example transformation:**
-        
+
         ```yaml
         # OpenAPI Operation
         /trails/{id}/conditions:
@@ -476,9 +476,9 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
                 schema:
                   type: string
         ```
-        
+
         Becomes this MCP tool:
-        
+
         ```json
         {
           "name": "check_conditions",
@@ -494,7 +494,7 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
         ```
 
     This script deploys:
-    
+
     - **Container App** running the Trail API (REST API with OpenAPI spec)
     - **APIM backend** pointing to the Trail API Container App
     - **MCP Server export** in APIM with `subscriptionRequired: true`
@@ -506,20 +506,20 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
     ==========================================
     Trail API Deployed as MCP Server
     ==========================================
-    
+
     Trail Services Product:
       Subscription Key: a1b2c3d4...x9y0
-    
+
     REST Endpoint: https://apim-xxxxx.azure-api.net/trailapi/trails
     MCP Endpoint:  https://apim-xxxxx.azure-api.net/trails/mcp
-    
+
     MCP Tools available:
       - list_trails: List all available hiking trails
       - get_trail: Get details for a specific trail
       - check_conditions: Current trail conditions and hazards
       - get_permit: Retrieve a trail permit
       - request_permit: Request a new trail permit
-    
+
     Current security: Subscription key only (no authentication!)
     ```
 
@@ -564,34 +564,34 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
     # Alice uses the Trail MCP server
     curl -H "Ocp-Apim-Subscription-Key: ${KEY}" \
          "${APIM_URL}/trails/mcp"
-    
+
     # Bob uses the SAME subscription key
     curl -H "Ocp-Apim-Subscription-Key: ${KEY}" \
          "${APIM_URL}/trails/mcp"
-    
+
     # ❌ Both succeed with the same key!
     # ❌ The MCP server can't tell Alice from Bob!
     # ❌ No way to enforce per-user permissions!
     ```
 
     ??? danger "Understanding Subscription Keys vs Authentication"
-        
+
         **Subscription keys are good for:**
-        
-        - **Tracking** - Know which application/team is calling  
-        - **Billing** - Chargeback model by team or product  
-        - **Rate limiting** - Different quotas per subscription tier  
+
+        - **Tracking** - Know which application/team is calling
+        - **Billing** - Chargeback model by team or product
+        - **Rate limiting** - Different quotas per subscription tier
         - **Product management** - Group APIs into products with different SLAs
-        
+
         **Subscription keys are NOT good for:**
-        
-        - **Authentication** - Can't verify WHO the user is  
-        - **Authorization** - Can't enforce per-user permissions  
-        - **Audit trails** - Logs show "engineering-key" not "bob@company.com"  
+
+        - **Authentication** - Can't verify WHO the user is
+        - **Authorization** - Can't enforce per-user permissions
+        - **Audit trails** - Logs show "engineering-key" not "bob@company.com"
         - **Credential security** - Long-lived, easily shared, no expiration
-        
+
         **Real-world scenario:** Data breach investigation.
-        
+
         Your audit logs show:
         ```json
         {
@@ -601,9 +601,9 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
           "status": "success"
         }
         ```
-        
+
         Who accessed the permit data? Alice, Bob, Charlie, or Miranda? You can't tell - they all share the same key.
-        
+
         **This is MCP07: Insufficient Authentication & Authorization** - subscription keys ≠ authentication.
 
 ??? success "Step 3: Fix - Add OAuth for Authentication (Keep Subscription Key for Tracking)"
@@ -645,9 +645,9 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
 
     ??? info "What This Script Deploys"
 
-        **1. RFC 9728 PRM Metadata Endpoint**  
+        **1. RFC 9728 PRM Metadata Endpoint**
         Creates a discovery endpoint for the Trail MCP server:
-        
+
         - **RFC 9728 path-based:** `https://apim-xxxxx.azure-api.net/.well-known/oauth-protected-resource/trails/mcp`
 
         Returns PRM metadata:
@@ -665,9 +665,9 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
 
         **Why only one endpoint?** In Waypoint 1.1, we created *two* PRM discovery endpoints for Sherpa (RFC 9728 path-based and suffix pattern). Here we only create the RFC 9728 path-based endpoint because both patterns work and one is sufficient. VS Code's MCP client will try multiple discovery paths and use whichever responds. The suffix pattern (`/{path}/.well-known/oauth-protected-resource`) and RFC 9728 path-based pattern (`/.well-known/oauth-protected-resource/{path}`) both work. We demonstrated both in Waypoint 1.1 for educational purposes, but for Trail MCP we keep it simple.
 
-        **2. OAuth Validation Policy**  
+        **2. OAuth Validation Policy**
         Adds token validation to the Trail MCP API:
-        
+
         - Validates Entra ID tokens against your tenant
         - Checks the token audience matches your MCP app
         - Returns a proper 401 with PRM discovery link on failure
@@ -682,23 +682,23 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
 
     ??? tip "Why Keep Both Subscription Keys AND OAuth?"
         For REST APIs exposed as MCP servers, the hybrid approach gives you the best of both:
-        
+
         **Subscription key provides:**
-        
+
         - **Usage tracking** - Know which team/app is calling
         - **Billing & chargeback** - Bill departments by API usage
         - **Product tiers** - Different rate limits per subscription
         - **Emergency kill switch** - Revoke app access without touching OAuth
-        
+
         **OAuth token provides:**
-        
+
         - **Authentication** - Verify the user's identity
         - **Authorization** - Enforce per-user permissions
         - **Audit trail** - Log exactly who did what
         - **Short-lived credentials** - Automatic expiration
-        
+
         **Together:** Subscription key answers "which app?" and OAuth answers "which user?"
-        
+
         ```
         Audit log with both:
         {
@@ -725,8 +725,8 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
 
     The script verifies:
 
-    - **No credentials** → 401 Unauthorized  
-    - **Subscription key only** → 401 Unauthorized (needs OAuth)  
+    - **No credentials** → 401 Unauthorized
+    - **Subscription key only** → 401 Unauthorized (needs OAuth)
     - **WWW-Authenticate header** present with PRM discovery URL
     - **PRM discovery** returns correct metadata
 
@@ -774,7 +774,7 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
 
     !!! tip "Test with VS Code"
         To verify the full flow works:
-        
+
         1. Keep subscription key in `.vscode/mcp.json`:
            ```json
            {
@@ -802,28 +802,28 @@ Subscription keys are useful for **tracking and billing**, but they are NOT auth
 - Tracking which app/team is calling
 - Usage-based billing possible
 - No user authentication
-- Can't audit individual users  
+- Can't audit individual users
 - Can't implement per-user permissions
 
 **After (subscription key + OAuth):**
 
-:material-check: **Tracking & billing** via subscription key  
-:material-check: **User authentication** via OAuth token  
-:material-check: **Audit logs** show both app AND user identity  
-:material-check: **Per-user permissions** can be enforced  
-:material-check: **PRM autodiscovery** - VS Code handles OAuth automatically  
+- +mdi:check+ **Tracking & billing** via subscription key
+- +mdi:check+ **User authentication** via OAuth token
+- +mdi:check+ **Audit logs** show both app AND user identity
+- +mdi:check+ **Per-user permissions** can be enforced
+- +mdi:check+ **PRM autodiscovery** - VS Code handles OAuth automatically
 
 **Key lesson:** Subscription keys and OAuth serve different purposes:
 
 | Purpose | Subscription Key | OAuth Token |
 |---------|-----------------|-------------|
-| Tracking/Billing | :material-check: | :material-close: |
-| Authentication | :material-close: | :material-check: |
-| User Identity | :material-close: | :material-check: |
-| Per-user Permissions | :material-close: | :material-check: |
-| Emergency Revocation | :material-check: (app level) | :material-check: (user level) |
+| Tracking/Billing | +mdi:check+ | +mdi:close+ |
+| Authentication | +mdi:close+ | +mdi:check+ |
+| User Identity | +mdi:close+ | +mdi:check+ |
+| Per-user Permissions | +mdi:close+ | +mdi:check+ |
+| Emergency Revocation | +mdi:check+ (app level) | +mdi:check+ (user level) |
 
-**OWASP MCP07** mitigated! :material-check:
+**OWASP MCP07** mitigated! +mdi:check+
 
 ## Waypoint 1.3: Rate Limiting by Subscription Key
 
@@ -912,15 +912,15 @@ You need **rate limiting** to protect your infrastructure and ensure fair resour
 
     ??? info "What This Script Deploys"
         The script applies rate limiting to the Trail REST API:
-        
+
         | API | Path | Policy |
         |-----|------|--------|
         | **trail-api** | `/trailapi/*` | Rate limiting by subscription key |
-        
+
         **Why only Trail API?** The Sherpa MCP API uses OAuth tokens (from Waypoint 1.1), not subscription keys. Rate limiting by subscription key only makes sense for APIs that require subscriptions—which is why we added one in Waypoint 1.2!
-        
+
         The Trail API now enforces:
-        
+
         - **10 requests per minute** per subscription key
         - **429 Too Many Requests** when quota exceeded
         - **Retry-After header** indicating when to retry
@@ -928,8 +928,8 @@ You need **rate limiting** to protect your infrastructure and ensure fair resour
     This applies the policy:
 
     ```xml
-    <rate-limit-by-key 
-      calls="10" 
+    <rate-limit-by-key
+      calls="10"
       renewal-period="60"
       counter-key="@(context.Subscription.Id)" />
     ```
@@ -943,15 +943,15 @@ You need **rate limiting** to protect your infrastructure and ensure fair resour
 
     ??? tip "Why Rate Limit by Subscription Key?"
         In Waypoint 1.2, you learned that subscription keys provide **tracking and billing**. They're also perfect for rate limiting because:
-        
-        :material-check: **Per-team quotas** - Each team/app gets its own rate limit  
-        :material-check: **Tiered products** - Premium subscriptions can have higher limits  
-        :material-check: **Billing alignment** - Rate limits match billing tiers  
-        :material-check: **Easy to manage** - Revoke or adjust limits per subscription  
-        :material-check: **Already required** - No additional configuration needed on clients
-        
+
+        - +mdi:check+ **Per-team quotas** - Each team/app gets its own rate limit
+        - +mdi:check+ **Tiered products** - Premium subscriptions can have higher limits
+        - +mdi:check+ **Billing alignment** - Rate limits match billing tiers
+        - +mdi:check+ **Easy to manage** - Revoke or adjust limits per subscription
+        - +mdi:check+ **Already required** - No additional configuration needed on clients
+
         Combined with OAuth (which identifies the *user*), subscription keys let you implement both:
-        
+
         - **Per-user limits** (via JWT claims if needed)
         - **Per-team/app limits** (via subscription key)
 
@@ -1029,11 +1029,4 @@ You need **rate limiting** to protect your infrastructure and ensure fair resour
 - Predictable costs
 - Tiered limits possible (different quotas per subscription tier)
 
-**OWASP MCP02 mitigation complete!** :material-check:
-
-
----
-
-[Continue: API Governance →](api-governance.md){ .md-button .md-button--primary }
-
-← [Overview & Deploy](index.md) | [API Governance →](api-governance.md)
+**OWASP MCP02 mitigation complete!** +mdi:check+

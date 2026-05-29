@@ -100,7 +100,7 @@ After running the script, open the Azure Portal and navigate to your API Center.
 - Track compliance requirements per server
 - Security review before deployment
 
-**OWASP MCP09 (Shadow MCP Servers)** mitigation complete, with secondary defense against **MCP03 (Tool Poisoning)** via registry-gated tool discovery! :material-check:
+**OWASP MCP09 (Shadow MCP Servers)** mitigation complete, with secondary defense against **MCP03 (Tool Poisoning)** via registry-gated tool discovery! +mdi:check+
 
 ---
 
@@ -108,43 +108,37 @@ After running the script, open the Azure Portal and navigate to your API Center.
 
 ??? tip "Deploy API Center Portal for Self-Service Discovery"
     **API Center Portal** provides a self-service website where developers can discover and explore your registered MCP servers without needing Azure Portal access.
-    
+
     **Benefits:**
-    
+
     - **Self-service discovery** - Developers find MCP servers without asking around
     - **Documentation hub** - Each MCP server's docs in one place
     - **Access control** - Portal respects Azure RBAC permissions
     - **Customizable** - Brand with your organization's look and feel
-    
+
     **To deploy:**
-    
+
     1. Create a Static Web App in Azure
     2. Configure it to use API Center as the backend
     3. Set up authentication (Entra ID recommended)
-    
+
     **Full setup guide:** [Set up API Center Portal](https://learn.microsoft.com/en-us/azure/api-center/set-up-api-center-portal)
 
 ??? tip "Microsoft Foundry MCP Integration"
     **Microsoft Foundry** provides enterprise-grade infrastructure for AI applications, including native MCP server support. When combined with API Center governance, you get a complete solution for managing MCP servers at scale.
-    
+
     **Key capabilities:**
-    
+
     - **Centralized security** - Apply consistent security policies across all MCP servers
     - **Monitoring** - Track MCP server usage, errors, and performance
     - **Credential management** - Securely manage OAuth tokens and API keys
     - **Multi-region** - Deploy MCP servers globally with consistent governance
-    
+
     **Security best practices for MCP in Foundry:**
-    
+
     - Use Managed Identity for MCP server authentication
     - Enable audit logging for all MCP tool invocations
     - Apply network isolation (VNet integration)
     - Register all MCP servers in API Center before deployment
-    
+
     **Full guide:** [MCP Security Best Practices in Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/security-best-practices?view=foundry)
-
----
-
-[Continue: Content Safety →](section2-content-safety.md){ .md-button .md-button--primary }
-
-← [Gateway & Authentication](section1-gateway-governance.md) | [Content Safety →](section2-content-safety.md)

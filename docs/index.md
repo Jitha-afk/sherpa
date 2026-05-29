@@ -1,7 +1,9 @@
 ---
-hide:
-  - navigation
-  - toc
+title: MCP Security Summit Workshop
+description: Secure MCP servers in Azure through hands-on exploitation and remediation. Break things, fix them, ship production-ready code — with Entra ID, Key Vault, API Management, AI Content Safety, and Log Analytics.
+keywords: MCP, Model Context Protocol, Azure security, Entra ID, API Management, AI Content Safety, OWASP, workshop
+image: https://azure-samples.github.io/sherpa/images/sherpa-mcp-workshop.png
+hide_page_header: true
 ---
 
 <div class="hero-banner">
@@ -16,32 +18,38 @@ hide:
       </div>
     </div>
     <div class="hero-banner-image">
-      <img src="images/sherpa-mcp-workshop-sm.png" alt="MCP Security Summit Workshop" />
+      <img src="images/sherpa-mcp-workshop-sm.png" alt="MCP Security Summit Workshop" width="301" height="341" fetchpriority="high" decoding="async" />
     </div>
   </div>
 </div>
 
 ## Why This Workshop
 
-<div class="grid cards" markdown>
+<div class="camp-cards">
 
--   :material-target:{ .lg .middle } __Learn by Breaking__
+<div class="camp-card">
+  <div class="camp-card-header">
+    <span class="camp-icon"><span class="material-icons">track_changes</span></span>
+    <strong>Learn by Breaking</strong>
+  </div>
+  <p>Exploit intentionally vulnerable servers, then fix them with Azure-native security — the <strong>vulnerable &rarr; exploit &rarr; fix &rarr; validate</strong> methodology.</p>
+</div>
 
-    ---
+<div class="camp-card">
+  <div class="camp-card-header">
+    <span class="camp-icon"><span class="material-icons">verified_user</span></span>
+    <strong>Azure-Native Security</strong>
+  </div>
+  <p>Entra ID, Key Vault, API Management, AI Content Safety, and Log Analytics — production services, not toy demos.</p>
+</div>
 
-    Exploit intentionally vulnerable servers, then fix them with Azure-native security — the **vulnerable → exploit → fix → validate** methodology.
-
--   :material-shield-check:{ .lg .middle } __Azure-Native Security__
-
-    ---
-
-    Entra ID, Key Vault, API Management, AI Content Safety, and Log Analytics — production services, not toy demos.
-
--   :material-book-open-variant:{ .lg .middle } __OWASP-Aligned__
-
-    ---
-
-    Every technique maps to the [OWASP MCP Azure Security Guide](https://microsoft.github.io/mcp-azure-security-guide/) for industry-standard coverage.
+<div class="camp-card">
+  <div class="camp-card-header">
+    <span class="camp-icon"><span class="material-icons">menu_book</span></span>
+    <strong>OWASP-Aligned</strong>
+  </div>
+  <p>Every technique maps to the <a href="https://microsoft.github.io/mcp-azure-security-guide/">OWASP MCP Azure Security Guide</a> for industry-standard coverage.</p>
+</div>
 
 </div>
 
@@ -143,10 +151,8 @@ Open the [Base Camp guide](camps/base-camp.md) and follow along. The docs tell y
 
 ## References
 
-:material-book: [OWASP MCP Azure Security Guide](https://microsoft.github.io/mcp-azure-security-guide/) — Companion guide referenced throughout  
-:material-file-document: [MCP Specification](https://modelcontextprotocol.io/specification/2025-11-25) — Official protocol documentation  
-:material-github: [FastMCP Framework](https://github.com/jlowin/fastmcp) — Python framework used in this workshop
-
----
++mdi:book+ [OWASP MCP Azure Security Guide](https://microsoft.github.io/mcp-azure-security-guide/) — Companion guide referenced throughout
++mdi:file-document+ [MCP Specification](https://modelcontextprotocol.io/specification/2025-11-25) — Official protocol documentation
++mdi:github+ [FastMCP Framework](https://github.com/jlowin/fastmcp) — Python framework used in this workshop
 
 *The mountain doesn't care about your excuses. Prepare well, climb smart, reach the summit.* 🏔️

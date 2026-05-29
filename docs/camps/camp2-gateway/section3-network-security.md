@@ -126,7 +126,7 @@ For this workshop, we've focused on the security controls that run **at the gate
 
 4. **Monitor for direct access attempts** — Even with restrictions, log and alert on unexpected traffic patterns.
 
-**Network isolation defense-in-depth complete!** :material-check: (closes the MCP07 backend-auth gap and removes the MCP09 shadow-path bypass)
+**Network isolation defense-in-depth complete!** +mdi:check+ (closes the MCP07 backend-auth gap and removes the MCP09 shadow-path bypass)
 
 ---
 
@@ -202,7 +202,3 @@ azd down --force --purge
     You've secured your MCP servers with enterprise-grade API gateway controls!
 
 Your gateway now handles identity, rate limiting, content safety, and API governance. Next, you'll turn your attention to the MCP servers themselves and ensure the data flowing in and out is properly validated and sanitized.
-
-[Continue: Camp 3 →](../camp3-io-security/index.md){ .md-button .md-button--primary }
-
-← [Content Safety](section2-content-safety.md) | [Camp 3: I/O Security →](../camp3-io-security/index.md)

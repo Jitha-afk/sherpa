@@ -64,7 +64,7 @@ As a bonus, you'll implement Protected Resource Metadata (RFC 9728)—a standard
 This script creates and configures an Entra ID app registration with:
 
 - **OAuth 2.1 scope** (`access_as_user`) for delegated permissions. This is Microsoft's standard naming convention for scopes that allow an app to act on behalf of the signed-in user. The app gets *your* permissions, not its own elevated access.
-- **Device Code Flow** support for CLI authentication  
+- **Device Code Flow** support for CLI authentication
 - **Authorization Code + PKCE** support for browser-based flows
 - **Protected Resource Metadata (PRM)** endpoints for OAuth discovery
 - **Pre-authorized clients:**
@@ -271,9 +271,9 @@ This updates the Container App's environment variables to use your Entra ID appl
 
     If you skip this step, the Container App would try to validate JWT tokens against the Managed Identity Client ID instead of your App Registration Client ID. This means:
 
-    :material-close: User tokens would have the wrong `aud` (audience) claim  
-    :material-close: JWT validation would fail with "Invalid audience"  
-    :material-close: Users couldn't authenticate even with valid tokens
+    - +mdi:close+ User tokens would have the wrong `aud` (audience) claim
+    - +mdi:close+ JWT validation would fail with "Invalid audience"
+    - +mdi:close+ Users couldn't authenticate even with valid tokens
 
     **Real-world analogy:**
 
@@ -293,12 +293,12 @@ This updates the Container App's environment variables to use your Entra ID appl
 
 The secure server now includes:
 
-:material-check: `JWTVerifier` for token validation  
-:material-check: Protected Resource Metadata (PRM) endpoint at `/.well-known/oauth-protected-resource`  
-:material-check: Audience validation (checks the `aud` claim)  
-:material-check: Expiration checking (rejects expired tokens)  
-:material-check: Signature validation (ensures token not tampered)  
-:material-check: Issuer validation (confirms token from correct Entra ID tenant)
+- +mdi:check+ `JWTVerifier` for token validation
+- +mdi:check+ Protected Resource Metadata (PRM) endpoint at `/.well-known/oauth-protected-resource`
+- +mdi:check+ Audience validation (checks the `aud` claim)
+- +mdi:check+ Expiration checking (rejects expired tokens)
+- +mdi:check+ Signature validation (ensures token not tampered)
+- +mdi:check+ Issuer validation (confirms token from correct Entra ID tenant)
 
 **What's different in the code:**
 
@@ -588,12 +588,11 @@ This camp offers **two authentication methods**. Both demonstrate OAuth 2.1 secu
 
     **What you just did:**
 
-    :material-check: Authenticated with a **JWT token** (expires in ~1 hour, not forever!)  
-    :material-check: Server **validated the token signature** against Entra ID public keys  
-    :material-check: Server **checked the audience** (token is for THIS app, not another)  
-    :material-check: Server **verified expiration** (token is still valid)  
-    :material-check: Successfully called MCP methods with OAuth 2.1 security!
-
+    - +mdi:check+ Authenticated with a **JWT token** (expires in ~1 hour, not forever!)
+    - +mdi:check+ Server **validated the token signature** against Entra ID public keys
+    - +mdi:check+ Server **checked the audience** (token is for THIS app, not another)
+    - +mdi:check+ Server **verified expiration** (token is still valid)
+    - +mdi:check+ Successfully called MCP methods with OAuth 2.1 security!
 
 ??? example "Option B: Authorization Code + PKCE Demo (Production OAuth Flow)"
 
@@ -754,11 +753,11 @@ This camp offers **two authentication methods**. Both demonstrate OAuth 2.1 secu
 
     #### What You Just Did
 
-    :material-check: **PRM Discovery** - Server told client how to authenticate (RFC 9728)  
-    :material-check: **OAuth Server Discovery** - Client found Entra ID endpoints automatically  
-    :material-check: **PKCE Flow** - Secure authorization code exchange with proof key  
-    :material-check: **JWT Token** - Received signed token from Entra ID (expires in ~1 hour)  
-    :material-check: **Authenticated MCP** - Made MCP requests with Bearer token  
+    - +mdi:check+ **PRM Discovery** - Server told client how to authenticate (RFC 9728)
+    - +mdi:check+ **OAuth Server Discovery** - Client found Entra ID endpoints automatically
+    - +mdi:check+ **PKCE Flow** - Secure authorization code exchange with proof key
+    - +mdi:check+ **JWT Token** - Received signed token from Entra ID (expires in ~1 hour)
+    - +mdi:check+ **Authenticated MCP** - Made MCP requests with Bearer token
 
     This is exactly how production MCP clients will work once they fully implement PRM support!
 
@@ -850,16 +849,10 @@ auth = JWTVerifier(
 
 **What's checked:**
 
-:material-check: **Signature:** Token cryptographically signed by Entra ID (not tampered)  
-:material-check: **Issuer (`iss`):** Token from correct Entra ID tenant  
-:material-check: **Audience (`aud`):** Token intended for THIS server (prevents confused deputy)  
-:material-check: **Expiration (`exp`):** Token not expired  
-:material-check: **Not Before (`nbf`):** Token is valid now (not used too early)
+- +mdi:check+ **Signature:** Token cryptographically signed by Entra ID (not tampered)
+- +mdi:check+ **Issuer (`iss`):** Token from correct Entra ID tenant
+- +mdi:check+ **Audience (`aud`):** Token intended for THIS server (prevents confused deputy)
+- +mdi:check+ **Expiration (`exp`):** Token not expired
+- +mdi:check+ **Not Before (`nbf`):** Token is valid now (not used too early)
 
 **Decode your JWT at [jwt.ms](https://jwt.ms) to see the claims!**
-
----
-
-[Continue: Validate Security →](section5-validate.md){ .md-button .md-button--primary }
-
-← [Key Vault](section3-key-vault.md) | [Validate Security →](section5-validate.md)

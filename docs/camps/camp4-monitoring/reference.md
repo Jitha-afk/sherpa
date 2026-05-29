@@ -53,7 +53,7 @@ Camp 4 has a **two-layer security architecture**. Both layers stream telemetry t
 !!! info "Two Log Formats for Security Events"
     - **Layer 1 (APIM)**: Logs to `Properties.event_type` directly
     - **Layer 2 (Function)**: Logs to `Properties.custom_dimensions.event_type`
-    
+
     Dashboard queries use `coalesce()` to handle both formats transparently.
 
 !!! info "The 2-5 Minute Delay"
@@ -121,23 +121,23 @@ AppTraces
 
 !!! warning "Why the Complex Parsing?"
     Azure Monitor OpenTelemetry for Python stores custom dimensions as a Python dict string, not JSON. This means:
-    
+
     - Single quotes instead of double quotes: `{'key': 'value'}` vs `{"key": "value"}`
     - `None` instead of `null`
     - `True`/`False` instead of `true`/`false`
-    
+
     The `replace_string()` calls convert to valid JSON before `parse_json()` can work.
 
 !!! info "Two Log Sources for Security Events"
     Security events come from **two different sources** with slightly different formats:
-    
+
     **Layer 1 (APIM/Prompt Shields)** - Logged via `<trace>` policy:
     ```kusto
     // Properties are at the root level
     | extend EventType = tostring(Properties.event_type)
     | extend Category = tostring(Properties.category)
     ```
-    
+
     **Layer 2 (Security Function)** - Logged via OpenTelemetry:
     ```kusto
     // Properties are nested in custom_dimensions as Python dict string
@@ -145,7 +145,7 @@ AppTraces
         tostring(Properties.custom_dimensions), "'", "\""), "None", "null"))
     | extend EventType = tostring(CustomDims.event_type)
     ```
-    
+
     **Unified query** (handles both layers):
     ```kusto
     | extend Props = parse_json(Properties)
@@ -218,11 +218,11 @@ Each query is designed to answer a specific question. Copy them into Log Analyti
 
 !!! tip "Running KQL Queries"
     To run these queries:
-    
+
     1. Go to the Azure Portal → Log Analytics workspace
     2. Click **Logs** in the left menu
     3. Paste the query and click **Run**
-    
+
     You can also save frequently-used queries for quick access.
 
 ### Security Events Summary
@@ -368,20 +368,20 @@ These queries leverage the shared Application Insights instance where all servic
 
 !!! info "Log Analytics Table Names"
     When querying from **Log Analytics workspace**, use these table names:
-    
+
     - `AppRequests` (not `requests`)
     - `AppDependencies` (not `dependencies`)
     - `AppTraces` (not `traces`)
-    
+
     Column names also differ: `TimeGenerated` (not `timestamp`), `AppRoleName` (not `cloud_RoleName`), `Success` (not `success`), `DurationMs` (not `duration`).
 
 !!! note "Service Instrumentation"
     All services in this workshop have OpenTelemetry instrumentation configured:
-    
+
     - **APIM, funcv1, funcv2**: Auto-instrumented, appear in `AppRequests`
     - **trail-api**: FastAPI instrumentation, appears in `AppRequests` when receiving HTTP traffic
     - **sherpa-mcp-server**: OpenTelemetry configured, appears in `AppTraces` (MCP uses **Streamable HTTP** transport, which supports both single JSON responses and SSE streaming for longer operations. APIM proxies these requests to the backend MCP server.)
-    
+
     The queries below union data from both `AppRequests` and `AppTraces` to give a complete picture across all services.
 
 #### Service Health Overview
@@ -390,7 +390,7 @@ These queries leverage the shared Application Insights instance where all servic
 // Request counts and error rates by service (including MCP servers via AppTraces)
 let httpServices = AppRequests
 | where TimeGenerated > ago(1h)
-| summarize 
+| summarize
     total = count(),
     failed = countif(Success == false),
     avg_duration_ms = avg(DurationMs)
@@ -414,7 +414,7 @@ union httpServices, mcpServices
 AppRequests
 | where AppRoleName contains "func"
 | where TimeGenerated > ago(1h)
-| summarize 
+| summarize
     avg_duration = avg(DurationMs),
     p95_duration = percentile(DurationMs, 95),
     success_rate = round(countif(Success == true) * 100.0 / count(), 2),
@@ -469,7 +469,7 @@ AppRequests
 | where TimeGenerated > ago(1h)
 | where Success == true
 | top 20 by DurationMs desc
-| project 
+| project
     TimeGenerated,
     service = AppRoleName,
     Name,
@@ -483,7 +483,7 @@ AppRequests
 // Activity summary across all services
 let httpActivity = AppRequests
 | where TimeGenerated > ago(1h)
-| summarize 
+| summarize
     request_count = count(),
     avg_duration_ms = round(avg(DurationMs), 2)
   by AppRoleName;
@@ -554,13 +554,13 @@ The sherpa-mcp-server returns **single JSON responses** for its simple tools. Th
 
 !!! warning "If Your MCP Server Returns SSE Streams"
     If you modify the MCP server to return SSE streams (for long-running operations or progress updates), the outbound policy will:
-    
+
     - **Timeout** waiting for the stream to complete
     - **Get partial data** if the stream takes longer than the policy timeout
     - **Block streaming** if `buffer-response="true"` is set
-    
+
     For streaming MCP servers, move security validation to:
-    
+
     1. **Inbound policies** (validate input before forwarding)
     2. **The MCP server itself** (sanitize before streaming)
 
@@ -574,67 +574,67 @@ Things don't always work the first time. Here are the most common issues and how
 
     **Don't panic!** This is the #1 issue people hit. Check these things in order:
 
-    1. **Wait 2-5 minutes.** Logs don't appear instantly. If you just enabled diagnostics or deployed the function, grab a coffee and try again.
+    **1. Wait 2-5 minutes.** Logs don't appear instantly. If you just enabled diagnostics or deployed the function, grab a coffee and try again.
 
-    2. **Check your time range.** The default in Log Analytics might be "Last 24 hours", if you just deployed, try "Last 1 hour" or "Last 30 minutes".
+    **2. Check your time range.** The default in Log Analytics might be "Last 24 hours", if you just deployed, try "Last 1 hour" or "Last 30 minutes".
 
-    3. **Verify diagnostic settings exist:**
+    **3. Verify diagnostic settings exist:**
 
-       === "Bash"
-           ```bash
-           az monitor diagnostic-settings list \
-             --resource "/subscriptions/.../providers/Microsoft.ApiManagement/service/YOUR-APIM" \
-             --query "[].name"
-           ```
+    === "Bash"
+        ```bash
+        az monitor diagnostic-settings list \
+          --resource "/subscriptions/.../providers/Microsoft.ApiManagement/service/YOUR-APIM" \
+          --query "[].name"
+        ```
 
-       === "PowerShell"
-           ```powershell
-           az monitor diagnostic-settings list `
-             --resource "/subscriptions/.../providers/Microsoft.ApiManagement/service/YOUR-APIM" `
-             --query "[].name"
-           ```
+    === "PowerShell"
+        ```powershell
+        az monitor diagnostic-settings list `
+          --resource "/subscriptions/.../providers/Microsoft.ApiManagement/service/YOUR-APIM" `
+          --query "[].name"
+        ```
 
-    4. **Verify Application Insights is connected:**
+    **4. Verify Application Insights is connected:**
 
-       === "Bash"
-           ```bash
-           az functionapp config appsettings list \
-             --name $FUNCTION_APP_NAME \
-             --resource-group $AZURE_RESOURCE_GROUP \
-             --query "[?name=='APPLICATIONINSIGHTS_CONNECTION_STRING']"
-           ```
+    === "Bash"
+        ```bash
+        az functionapp config appsettings list \
+          --name $FUNCTION_APP_NAME \
+          --resource-group $AZURE_RESOURCE_GROUP \
+          --query "[?name=='APPLICATIONINSIGHTS_CONNECTION_STRING']"
+        ```
 
-       === "PowerShell"
-           ```powershell
-           az functionapp config appsettings list `
-             --name $env:FUNCTION_APP_NAME `
-             --resource-group $env:AZURE_RESOURCE_GROUP `
-             --query "[?name=='APPLICATIONINSIGHTS_CONNECTION_STRING']"
-           ```
+    === "PowerShell"
+        ```powershell
+        az functionapp config appsettings list `
+          --name $env:FUNCTION_APP_NAME `
+          --resource-group $env:AZURE_RESOURCE_GROUP `
+          --query "[?name=='APPLICATIONINSIGHTS_CONNECTION_STRING']"
+        ```
 
-    5. **Generate some events!** Run the exploit scripts to create log entries, then wait a few minutes.
+    **5. Generate some events!** Run the exploit scripts to create log entries, then wait a few minutes.
 
 ??? question "The dashboard shows 'No data'"
 
     **Workbooks need data to display.** If panels are empty:
 
-    1. **Adjust the time range** at the top of the workbook to a wider window (try "Last 7 days")
-    
-    2. **Generate events** by running:
+    **1. Adjust the time range** at the top of the workbook to a wider window (try "Last 7 days")
 
-       === "Bash"
-           ```bash
-           ./scripts/section4/4.1-simulate-attack.sh
-           ```
+    **2. Generate events** by running:
 
-       === "PowerShell"
-           ```powershell
-           ./scripts/section4/4.1-simulate-attack.ps1
-           ```
-    
-    3. **Wait for ingestion** (2-5 minutes), then refresh the workbook
+    === "Bash"
+        ```bash
+        ./scripts/section4/4.1-simulate-attack.sh
+        ```
 
-    4. **Check the workspace connection** - Make sure the workbook is querying the right Log Analytics workspace
+    === "PowerShell"
+        ```powershell
+        ./scripts/section4/4.1-simulate-attack.ps1
+        ```
+
+    **3. Wait for ingestion** (2-5 minutes), then refresh the workbook
+
+    **4. Check the workspace connection** - Make sure the workbook is querying the right Log Analytics workspace
 
 ??? question "Alerts aren't firing even though I see events"
 
@@ -653,22 +653,22 @@ Things don't always work the first time. Here are the most common issues and how
 ??? question "Properties.event_type returns nothing but I see the data"
 
     **This depends on which layer emitted the log:**
-    
+
     - **Layer 1 (APIM/Prompt Shields)**: Properties are stored directly
     - **Layer 2 (Security Function)**: Properties are stored in `custom_dimensions` as a Python dict string
-    
+
     **For Layer 1 logs** (prompt injection):
     ```kusto
     | extend EventType = tostring(Properties.event_type)  // ✓ Works for APIM traces
     ```
-    
+
     **For Layer 2 logs** (SQL, path, shell injection):
     ```kusto
     | extend CustomDims = parse_json(replace_string(replace_string(
         tostring(Properties.custom_dimensions), "'", "\""), "None", "null"))
     | extend EventType = tostring(CustomDims.event_type)  // ✓ Works for Function logs
     ```
-    
+
     **For unified queries** (handles both layers):
     ```kusto
     | extend Props = parse_json(Properties)
@@ -680,9 +680,9 @@ Things don't always work the first time. Here are the most common issues and how
 
     Check what's actually in Properties:
     ```kusto
-    AppTraces 
+    AppTraces
     | where Properties has "event_type"
-    | take 5 
+    | take 5
     | project Properties
     ```
 
@@ -690,7 +690,7 @@ Things don't always work the first time. Here are the most common issues and how
     ```json
     {"event_type": "INJECTION_BLOCKED", "category": "prompt_injection", ...}
     ```
-    
+
     Layer 2 logs will show it nested with single quotes:
     ```json
     {"custom_dimensions": "{'event_type': 'INJECTION_BLOCKED', ...}"}
@@ -699,10 +699,10 @@ Things don't always work the first time. Here are the most common issues and how
 ??? question "I'm seeing 'Request rate is large' errors"
 
     **You might be hitting rate limits.** This happens if you:
-    
+
     - Run attack simulations too fast
     - Have multiple people using the same deployment
-    
+
     Solution: Wait a few minutes, or add delays between requests in your scripts.
 
 ---

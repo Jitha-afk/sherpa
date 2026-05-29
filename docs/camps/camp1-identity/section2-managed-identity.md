@@ -23,10 +23,10 @@ You've seen how the **vulnerable server** exposes tokens and lacks proper authen
 
     **Azure Managed Identity** eliminates passwords and keys by having Azure automatically manage credentials for you:
 
-    :material-check: **No secrets to store** - Azure handles authentication  
-    :material-check: **No secrets to rotate** - Azure manages the lifecycle  
-    :material-check: **Uses Azure RBAC** - Permissions controlled by role assignments  
-    :material-check: **Works with many Azure services** - Key Vault, Storage, Cosmos DB, etc.  
+    - +mdi:check+ **No secrets to store** - Azure handles authentication
+    - +mdi:check+ **No secrets to rotate** - Azure manages the lifecycle
+    - +mdi:check+ **Uses Azure RBAC** - Permissions controlled by role assignments
+    - +mdi:check+ **Works with many Azure services** - Key Vault, Storage, Cosmos DB, etc.
 
     **How it works:**
 
@@ -124,9 +124,3 @@ client = BlobServiceClient(account_url="https://storage.blob.core.windows.net", 
 ### Next Step
 
 Managed Identity is configured! Now let's use it to access Key Vault in Waypoint 4.
-
----
-
-[Continue: Key Vault →](section3-key-vault.md){ .md-button .md-button--primary }
-
-← [Cloud Exploits](section1-cloud-exploits.md) | [Key Vault →](section3-key-vault.md)

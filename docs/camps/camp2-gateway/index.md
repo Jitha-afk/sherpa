@@ -25,7 +25,7 @@ In Camp 1, you secured a single MCP server with OAuth and Managed Identity. Now 
 This camp follows the same **"vulnerable → exploit → fix → validate"** pattern from previous camps, but now at scale with multiple MCP servers and comprehensive gateway controls.
 
 !!! info "Camp Details"
-    **Tech Stack:** Python, MCP, Azure API Management, Container Apps, Content Safety, API Center, Entra ID  
+    **Tech Stack:** Python, MCP, Azure API Management, Container Apps, Content Safety, API Center, Entra ID
     **Primary Risks:** [MCP02](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp02-privilege-escalation/) (Privilege Escalation via Scope Creep), [MCP06](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp06-prompt-injection/) (Intent Flow Subversion), [MCP07](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp07-authz/) (Insufficient Authentication & Authorization), [MCP09](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp09-shadow-servers/) (Shadow MCP Servers)
 
 ## What You'll Learn
@@ -46,13 +46,13 @@ Building on Camp 1's identity foundation, you'll master gateway security at scal
 
 ## Prerequisites
 
-:material-check: Azure subscription with Contributor access  
-:material-check: Azure CLI installed and authenticated  
-:material-check: Azure Developer CLI (azd) installed and authenticated  
-:material-check: Docker installed and running  
-:material-check: Completed Camp 1 (recommended for OAuth context)
+- +mdi:check+ Azure subscription with Contributor access
+- +mdi:check+ Azure CLI installed and authenticated
+- +mdi:check+ Azure Developer CLI (azd) installed and authenticated
+- +mdi:check+ Docker installed and running
+- +mdi:check+ Completed Camp 1 (recommended for OAuth context)
 
-:material-arrow-right: [Full prerequisites guide](../../prerequisites.md) with installation instructions.
+- +mdi:arrow-right+ [Full prerequisites guide](../../prerequisites.md) with installation instructions.
 
 **Verify your setup:**
 
@@ -128,9 +128,3 @@ When provisioning completes, save your deployment info:
     ```
 
 Ready? Let's start by exposing your MCP server through the gateway.
-
-[Start: Gateway & Authentication →](section1-gateway-governance.md){ .md-button .md-button--primary }
-
----
-
-← [Camp 1: Identity](../camp1-identity/index.md) | [Gateway & Authentication →](section1-gateway-governance.md)

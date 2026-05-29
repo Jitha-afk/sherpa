@@ -30,7 +30,7 @@ This is where **observability** comes in, and it's just as important as the secu
     Security controls without observability are like locks without security cameras. You might stop the intruder, but you'll never know they tried to get in.
 
 !!! info "Camp Details"
-    **Tech Stack:** Log Analytics, Application Insights, Azure Monitor, Workbooks, API Management, Container Apps, Functions, MCP  
+    **Tech Stack:** Log Analytics, Application Insights, Azure Monitor, Workbooks, API Management, Container Apps, Functions, MCP
     **Primary Risks:** [MCP08](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp08-telemetry/) (Lack of Audit and Telemetry), [MCP04](https://microsoft.github.io/mcp-azure-security-guide/mcp/mcp04-supply-chain/) (Software Supply Chain Attacks & Dependency Tampering)
 
 ---
@@ -102,13 +102,13 @@ You'll wire up structured logging, build a security dashboard with Azure Workboo
 
 Before starting Camp 4, ensure you have:
 
-:material-check: Azure subscription with Contributor access  
-:material-check: Azure CLI installed and logged in (`az login`)  
-:material-check: Azure Developer CLI installed (`azd auth login`)  
-:material-check: Docker installed and running (for Container Apps deployment)  
-:material-check: Completed Camp 3: I/O Security (recommended, but not required)
+- +mdi:check+ Azure subscription with Contributor access
+- +mdi:check+ Azure CLI installed and logged in (`az login`)
+- +mdi:check+ Azure Developer CLI installed (`azd auth login`)
+- +mdi:check+ Docker installed and running (for Container Apps deployment)
+- +mdi:check+ Completed Camp 3: I/O Security (recommended, but not required)
 
-:material-arrow-right: [Full prerequisites guide](../../prerequisites.md) with installation instructions for all tools.
+- +mdi:arrow-right+ [Full prerequisites guide](../../prerequisites.md) with installation instructions for all tools.
 
 ---
 
@@ -133,9 +133,3 @@ This deploys an APIM gateway, security functions (v1 with basic logging, v2 with
 Once deployment completes, you're ready to start the workshop. Camp 4 follows the **hidden → visible → actionable** pattern — you'll explore what's already logging, make hidden events visible, then turn that visibility into dashboards and alerts.
 
 Ready? Let's start by exploring what API Management is already logging.
-
-[Start: Gateway Logging →](section1-apim-logging.md){ .md-button .md-button--primary }
-
----
-
-← [Camp 3: I/O Security](../camp3-io-security/index.md) | [The Summit →](../summit.md)

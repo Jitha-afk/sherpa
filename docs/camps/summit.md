@@ -10,7 +10,7 @@ hide:
 ![Summit](../images/sherpa-summit.png){ .center width=400 }
 
 !!! info "Summit Details"
-    **Tech Stack:** All previous camps combined - Entra ID, APIM, Azure Functions, Container Apps, Log Analytics, Application Insights  
+    **Tech Stack:** All previous camps combined - Entra ID, APIM, Azure Functions, Container Apps, Log Analytics, Application Insights
     **Primary Focus:** End-to-end secure MCP deployment with red team/blue team exercises
 
 ## Welcome to the Summit!
@@ -61,7 +61,3 @@ Each camp builds on the previous one, so completing them in order will prepare y
 ## Stay Updated
 
 Watch the [GitHub repository](https://github.com/Azure-Samples/sherpa) for updates on the Summit release.
-
----
-
-← [Camp 4: Monitoring](camp4-monitoring/index.md)

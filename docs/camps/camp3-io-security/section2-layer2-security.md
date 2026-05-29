@@ -114,14 +114,13 @@ Now that you've seen the vulnerabilities, let's wire the security function into 
 
         ??? info "sherpa-mcp uses Server-Side Sanitization"
             For `sherpa-mcp` (native MCP server), output sanitization happens **inside the server**, not in APIM. The `get_guide_contact` tool calls the sanitize-output Azure Function directly before returning data.
-            
+
             This approach is necessary because FastMCP's Streamable HTTP transport always uses `Content-Type: text/event-stream`, making APIM outbound policies unreliable.
 
         ??? warning "trail-mcp has NO outbound policy"
             For `trail-mcp` (synthesized MCP), there is no outbound sanitization policy. APIM controls the SSE stream lifecycle, causing `Body.As<string>()` to block indefinitely.
-            
-            Instead, output sanitization is applied to `trail-api`, which processes the REST response *before* APIM wraps it in SSE events.
 
+            Instead, output sanitization is applied to `trail-api`, which processes the REST response *before* APIM wraps it in SSE events.
 
 ??? note "Step 2: Under the Hood -- How the Security Function Works"
 
@@ -229,14 +228,14 @@ While input checking stops attacks coming *in*, output sanitization protects sen
     def detect_and_redact_pii(text: str) -> PIIResult:
         """
         Calls Azure AI Language's PII detection endpoint.
-        
+
         Detects: PersonName, Email, PhoneNumber, USSocialSecurityNumber,
                  Address, CreditCardNumber, DateOfBirth, and 40+ more...
-        
+
         Returns text with entities replaced: "John Smith" → "[REDACTED-PersonName]"
         """
         result = client.recognize_pii_entities([text])[0]
-        
+
         # Redact in reverse order to preserve character positions
         for entity in sorted(result.entities, key=lambda e: e.offset, reverse=True):
             redaction = f"[REDACTED-{entity.category}]"
@@ -258,9 +257,3 @@ While input checking stops attacks coming *in*, output sanitization protects sen
     ```
 
 The two techniques complement each other: AI finds human-readable PII, regex finds machine-generated secrets.
-
----
-
-[Continue: Validate Security →](section3-validation.md){ .md-button .md-button--primary }
-
-← [Vulnerabilities](section1-vulnerabilities.md) | [Validation →](section3-validation.md)

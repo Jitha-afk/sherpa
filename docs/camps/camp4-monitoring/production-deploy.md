@@ -26,13 +26,13 @@ The **complete deployment mode** deploys the entire Camp 4 stack in a single `az
 
 | Component | Workshop Mode (default) | Complete Mode |
 |-----------|------------------------|---------------|
-| APIM + Diagnostic Settings | :material-check: Deployed | :material-check: Deployed |
-| Security Function v1 (basic logging) | :material-check: **Active** | :material-check: Deployed |
-| Security Function v2 (structured logging) | :material-check: Deployed | :material-check: **Active** |
-| MCP Server + Trail API | :material-check: Deployed | :material-check: Deployed |
-| Security Dashboard (Workbook) | :material-close: Manual (Section 3) | :material-check: Deployed |
-| Alert Rules + Action Group | :material-close: Manual (Section 3) | :material-check: Deployed |
-| APIM routes to v2 | :material-close: Manual (Section 2) | :material-check: Automatic |
+| APIM + Diagnostic Settings | +mdi:check+ Deployed | +mdi:check+ Deployed |
+| Security Function v1 (basic logging) | +mdi:check+ **Active** | +mdi:check+ Deployed |
+| Security Function v2 (structured logging) | +mdi:check+ Deployed | +mdi:check+ **Active** |
+| MCP Server + Trail API | +mdi:check+ Deployed | +mdi:check+ Deployed |
+| Security Dashboard (Workbook) | +mdi:close+ Manual (Section 3) | +mdi:check+ Deployed |
+| Alert Rules + Action Group | +mdi:close+ Manual (Section 3) | +mdi:check+ Deployed |
+| APIM routes to v2 | +mdi:close+ Manual (Section 2) | +mdi:check+ Automatic |
 
 In complete mode, APIM routes directly to v2 (structured logging) and the workbook + alert rules are deployed via Bicep — no workshop scripts needed.
 
@@ -193,5 +193,3 @@ By the time you've navigated to the portal, the logs should be flowing. Open you
     az ad app delete --id $MCP_ID
     az ad app delete --id $APIM_ID
     ```
-
----

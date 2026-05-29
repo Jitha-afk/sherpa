@@ -113,7 +113,3 @@ You've completed Camp 4 and reached **Observation Peak**! Here's how far you've 
 The **hidden → visible → actionable** pattern applies beyond monitoring: whenever you deploy something new, ask yourself, "If this breaks at 3 AM, how will I know?"
 
 Your MCP servers are now **authenticated**, **protected**, **validated**, and **observable**. One more climb to go!
-
----
-
-← [Dashboards & Alerts](section3-dashboards-alerts.md) | [The Summit →](../summit.md)
